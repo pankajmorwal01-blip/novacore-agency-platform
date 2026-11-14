@@ -1,0 +1,68 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+dist-ssr/
+build/
+coverage/
+.vite/
+
+# Environment files and local overrides
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.local
+
+# Runtime data and uploaded files
+server/uploads/*
+!server/uploads/.gitkeep
+
+# Logs and diagnostic output
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+lerna-debug.log*
+report.*.json
+
+# Test and tool caches
+.nyc_output/
+.cache/
+.eslintcache
+.oxlint-cache/
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editors and IDEs
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+*.swp
+*.swo
+*.sublime-workspace
+
+# Windows / Visual Studio
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.ntvs*
+*.njsproj
+*.sln
+
+node_modules/
+**/node_modules/
+
+.env
+.env.*
+!.env.example
+
+dist/
+.DS_Store
