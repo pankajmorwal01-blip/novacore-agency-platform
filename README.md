@@ -1,293 +1,174 @@
-<<<<<<< HEAD
-# Novacore Systems | Premium AI Solutions & Software Agency Platform
+# Novacore Systems
 
-> Production-oriented, full-stack enterprise platform for an elite software engineering and AI solutions agency. Built with **React 18**, **Tailwind CSS**, **Node.js**, **Express**, **MongoDB & Mongoose**, with secure **JWT authentication via HTTP-only cookies**, role-based authorization, and real-time bidirectional messaging.
-
----
-
-## 1. System Overview
-
-Novacore Systems provides digital solutions to enterprises, startups, and institutions across 8 core disciplines:
-1. **AI Agent Development** (Autonomous swarms, tool-calling sandboxes, deterministic state graphs)
-2. **AI Automation and Workflow Integration** (Event queues, OCR pipelines, CRM/ERP auto-sync)
-3. **Custom Web Application Development** (React, TypeScript, sub-second TTFB, SSR)
-4. **Android and iOS App Development** (React Native, Swift, Kotlin, offline-first BLE sync)
-5. **SaaS Product Development** (Multi-tenant DB isolation, Stripe billing, developer APIs)
-6. **Backend and API Development** (Microservices, Redis caching, sub-50ms distributed APIs)
-7. **Database Design & Architecture** (PostgreSQL, MongoDB, schema optimization, migrations)
-8. **Software Consulting and Maintenance** (SOC-2 compliance, cloud right-sizing, 24/7 SRE)
+A full-stack agency web platform built for digital engineering and AI consultancy services. It includes a modern public marketing site, an interactive client portal with project tracking and discussions, and an admin backoffice for managing incoming leads, client requests, and portfolio case studies.
 
 ---
 
-## 2. Key Features
+## Features
 
-### 🌐 Public Website
-- **Modern Landing Page**: Hero section, service matrix, featured case studies, 4-stage engineering methodology, interactive technology stack tabs, verifiable proof metrics, FAQ accordion, and contact CTA.
-- **Deep-Dive Services Page**: Comprehensive specifications for all 8 engineering disciplines detailing problems solved, architectural features, approach, and tech stacks.
-- **Dynamic Portfolio CMS**: Filterable case studies with quantitative impact metrics, client attribution, and project detail views.
-- **Contact Page**: Multi-field inquiry form with real-time validation that saves directly into MongoDB.
-- **About Page**: Mission, vision, core values, development philosophy, and technical leadership team.
+###  Public Site
+- **Landing & Services**: Showcases service offerings, engineering processes, case studies, and customer FAQ.
+- **Dynamic Portfolio**: Searchable, filterable case studies with detailed project breakdowns.
+- **Lead Capture**: Contact form with server-side validation and automated lead logging.
 
-### 🔒 Authentication & Role-Based Authorization
-- **Security-First Architecture**: Passwords hashed with `bcrypt` (12 salt rounds).
-- **HTTP-Only Cookies**: JWTs are transmitted exclusively via secure HTTP-only cookies, preventing XSS-based token theft.
-- **Role-Based Access Control**: Strict `user` and `admin` roles. Client-side role spoofing is impossible; roles are enforced at the backend middleware and database query layers.
-- **Password Reset Flow**: Cryptographically secure, expiring reset tokens with automated email notifications (or dev log dispatch).
-- **Data Isolation**: Strict ownership checks ensure users can only ever access their own project requests and communications. Attempting to view another user's project ID returns `403 Forbidden`.
+###  Client Dashboard (`/dashboard`)
+- **Project Submissions**: Multi-step request form (scope, budget, tech preferences, file attachments) with automatic `PRJ-XXXXXX` tracking IDs.
+- **Project Tracking**: Status indicators (`Submitted`, `Under Review`, `Approved`, `In Progress`, `Completed`, etc.) and timeline milestones.
+- **Direct Discussions**: Built-in chat thread per project between clients and project leads.
+- **Account Settings**: Profile updates and password management.
 
-### 📊 Client Dashboard (`/dashboard`)
-- **Executive Overview**: Total requests, under-review items, active sprints, and completed projects.
-- **Interactive Multi-Section Project Request Form**:
-  - Scope classification, requirements, features list, preferred tech, budget, deadline, and file attachments (PDF, DOCX, ZIP, images).
-  - Automatically generates unique project identifier (`PRJ-XXXXXX`).
-- **My Projects Directory**: Search and status filter tabs for all user requests.
-- **Project Detail Console**: Full specifications, milestone progression stepper, and scope editor.
-- **Bidirectional Discussion Thread**: Live communication between client and lead systems architect for each engagement.
-- **Profile & Security Settings**: Update contact information, organization details, and change passwords.
+### Admin Portal (`/admin`)
+- **Operations Overview**: At-a-glance KPI metrics (active projects, pending requests, new leads).
+- **Project Management**: Review proposals, update statuses, add internal team notes, and review attached files.
+- **Lead Inbox**: Triage inbound messages, mark them contacted/converted, and log notes.
+- **Portfolio Manager**: Create, edit, and publish new case studies directly from the UI.
+- **User Management**: View registered users and manage role permissions safely.
 
-### 🛡️ Administrative Console (`/admin`)
-- **Separate Professional UI**: High-density management layout designed specifically for business operations.
-- **Global KPI Analytics**: Aggregated counts for users, project pipeline, pending reviews, active sprints, and contact leads.
-- **Project Request Management**: Search and filter all client proposals, change status (`Submitted`, `Under Review`, `In Discussion`, `Approved`, `In Progress`, `Completed`, `Rejected`, `Cancelled`), append internal private notes, and delete inappropriate requests with confirmation.
-- **Portfolio CMS**: Create, edit, and delete case studies with cover images, impact metrics, and technology tags.
-- **Inbound Lead Triage**: Review contact inquiries, update status (`new`, `contacted`, `converted`, `archived`), and add internal notes.
-- **Identity & Access Management (IAM)**: Review registered accounts, project volume, and safely promote/demote administrative privileges (with self-demotion lockout safeguards).
+###  Security & Auth
+- JWT authentication stored securely in **HTTP-only, SameSite cookies** (no tokens exposed to `localStorage`).
+- Role-based route protection on both frontend (`ProtectedRoute`, `AdminRoute`) and Express API middleware.
+- Scoped data access — users can only query and interact with their own projects and threads.
+- Password hashing with bcrypt, rate limiting on sensitive endpoints, and Helmet security headers.
 
 ---
 
-## 3. Technology Stack
+## Tech Stack
 
-### Frontend
-- **React.js 18**
-- **Vite 6**
-- **Tailwind CSS 3** (Custom dark charcoal & obsidian theme)
-- **Framer Motion** (Subtle, purposeful transitions)
-- **React Router 7**
-- **Lucide React** (Clean, professional interface icons)
-- **Axios** (Configured with `withCredentials: true`)
-
-### Backend
-- **Node.js 22** & **Express.js**
-- **MongoDB** & **Mongoose** (With automatic in-memory fallback for immediate zero-config local runtimes)
-- **bcryptjs** (Password hashing)
-- **jsonwebtoken** (JWT session tokens)
-- **cookie-parser** (HTTP-only cookie parser)
-- **helmet** (Security headers)
-- **cors** (Strict origin whitelisting)
-- **express-rate-limit** (DDoS & brute-force throttling)
-- **multer** (Sanitized file uploads)
-- **nodemailer** (Email notifications)
-- **dotenv** (Environment variable isolation)
+- **Frontend**: React 18, Vite, Tailwind CSS, React Router v7, Framer Motion, Lucide Icons, Axios
+- **Backend**: Node.js, Express.js
+- **Database**: MongoDB via Mongoose *(includes an automatic in-memory MongoDB fallback if local Mongo isn't running)*
+- **Auth & Security**: JWT (HTTP-only cookies), bcryptjs, Helmet, Express Rate Limit, Multer
 
 ---
 
-## 4. Project Structure
-
-```
-├── client/                     # Frontend React application
-│   ├── public/
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── common/         # Navbar, Footer, StatusBadge, ProjectDiscussion, ProtectedRoute, AdminRoute
-│   │   ├── context/
-│   │   │   └── AuthContext.jsx # Auth state & cookie session management
-│   │   ├── pages/
-│   │   │   ├── HomePage.jsx
-│   │   │   ├── ServicesPage.jsx
-│   │   │   ├── PortfolioPage.jsx
-│   │   │   ├── PortfolioDetailPage.jsx
-│   │   │   ├── AboutPage.jsx
-│   │   │   ├── ContactPage.jsx
-│   │   │   ├── LoginPage.jsx
-│   │   │   ├── RegisterPage.jsx
-│   │   │   ├── ForgotPasswordPage.jsx
-│   │   │   ├── ResetPasswordPage.jsx
-│   │   │   ├── NotFoundPage.jsx
-│   │   │   ├── dashboard/      # Client Portal views
-│   │   │   └── admin/          # Admin Operations Console
-│   │   ├── services/
-│   │   │   └── api.js          # Axios client with credentials
-│   │   ├── App.jsx
-│   │   ├── main.jsx
-│   │   └── index.css
-│   ├── vite.config.js
-│   ├── tailwind.config.js
-│   └── package.json
-├── server/                     # Backend API server
-│   ├── config/
-│   │   ├── config.js           # Environment parser
-│   │   └── db.js               # Mongoose DB connector with resilient embedded fallback
-│   ├── controllers/
-│   │   ├── authController.js
-│   │   ├── userController.js
-│   │   ├── projectController.js
-│   │   ├── contactController.js
-│   │   ├── portfolioController.js
-│   │   └── adminController.js
-│   ├── middleware/
-│   │   ├── auth.js             # verifyToken, requireAdmin, optionalAuth
-│   │   ├── rateLimiter.js      # Endpoint rate limiting
-│   │   ├── upload.js           # Multer file sanitizer & validator
-│   │   └── errorHandler.js     # Centralized error handler
-│   ├── models/
-│   │   ├── User.js
-│   │   ├── ProjectRequest.js
-│   │   ├── ContactInquiry.js
-│   │   ├── Message.js
-│   │   └── Portfolio.js
-│   ├── routes/                 # Express API routes
-│   ├── scripts/
-│   │   └── seed.js             # Standalone seed runner
-│   ├── utils/
-│   │   ├── emailService.js
-│   │   └── seedData.js
-│   ├── tests/
-│   │   └── test-runner.js      # 15-point automated E2E test suite
-│   ├── uploads/                # File uploads directory
-│   ├── .env.example
-│   ├── server.js
-│   └── package.json
-├── API_DOCUMENTATION.md        # Full REST API specifications
-├── README.md
-└── package.json                # Root package for concurrently running client & server
-```
-
----
-
-## 5. Quick Start & Installation
+## Getting Started
 
 ### Prerequisites
-- Node.js >= 18.0.0
-- npm >= 9.0.0
-- MongoDB (Optional: The application includes an embedded in-memory MongoDB runner so it runs out-of-the-box even without a local `mongod` service!)
+- **Node.js** (v18+)
+- **npm** (v9+)
+- *MongoDB is optional for local development* — if no local instance is running, the server automatically boots an in-memory database (`mongodb-memory-server`) so you can test immediately with zero setup.
 
-### Step 1: Install Dependencies
-From the repository root:
+### 1. Clone & Install Dependencies
+Run the root helper script to install dependencies across root, server, and client:
+
 ```bash
 npm run install:all
 ```
-*(Or navigate to `/server` and `/client` individually and run `npm install`)*
 
-### Step 2: Configure Environment Variables
-Copy the `.env.example` file in the `server` directory:
+*(Alternatively, run `npm install` inside both `/server` and `/client` directories).*
+
+### 2. Configure Environment Variables
+Copy the sample `.env` file in the `server` folder:
+
 ```bash
+# Windows PowerShell
+copy server\.env.example server\.env
+
+# Or bash / macOS / Linux
 cp server/.env.example server/.env
 ```
 
-Key environment variables:
-```env
-PORT=5000
-NODE_ENV=development
-CLIENT_URL=http://localhost:5173
-MONGODB_URI=mongodb://localhost:27017/novacore_db
-JWT_SECRET=novacore_super_secure_jwt_secret_key_938472938479238472938
-JWT_EXPIRES_IN=7d
-COOKIE_SECURE=false
+The defaults in `.env.example` work out of the box for local development.
 
-ADMIN_NAME=Novacore Executive Admin
-ADMIN_EMAIL=admin@novacore.io
-ADMIN_PASSWORD=AdminSecurePass2026!
-ADMIN_PHONE=+1 (800) 555-0199
-```
+### 3. Seed Initial Data (Optional)
+The server auto-seeds initial data on first boot if the database is empty, but you can also manually run:
 
-### Step 3: Run Database Seed (Optional)
-The server runs an automated seed check on startup. You can also trigger the seed script manually at any time:
 ```bash
-cd server && npm run seed
+npm run seed
 ```
 
-### Step 4: Start the Application
+### 4. Run the Dev Servers
+Start both the backend and frontend in separate terminal windows:
 
-Start the backend API server:
+**Backend (port 5000):**
 ```bash
-cd server && npm run dev
-# Server will run on http://localhost:5000
+npm run dev:server
+# or: cd server && npm run dev
 ```
 
-In a separate terminal, start the frontend Vite development server:
+**Frontend (port 5173):**
 ```bash
-cd client && npm run dev
-# Client will run on http://localhost:5173
+npm run dev:client
+# or: cd client && npm run dev
 ```
+
+Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ---
 
-## 6. Pre-Configured Demo Credentials
+## Demo Accounts
 
-The initial seed process configures two ready-to-test accounts:
+The seed script creates two pre-configured accounts for testing:
 
-| Role | Email | Password | Access Level |
+| Account | Email | Password | Role / Access |
 | :--- | :--- | :--- | :--- |
-| **Executive Admin** | `admin@novacore.io` | `AdminSecurePass2026!` | Full Admin Console (`/admin`), Project Approvals, Portfolio CMS, User IAM |
-| **Demo Client** | `client@enterprise.com` | `ClientPass2026!` | Client Portal (`/dashboard`), Project Requests, Live Discussion Thread |
+| **Admin** | `admin@novacore.io` | `AdminSecurePass2026!` | Access to `/admin`, project review, lead triage, and portfolio CMS |
+| **Client** | `client@enterprise.com` | `ClientPass2026!` | Access to `/dashboard`, project submissions, and message threads |
 
-> **Convenience Feature**: On the `/login` page, click either **"Fill Admin Demo"** or **"Fill Client Demo"** to auto-populate credentials with a single click.
+> **Tip**: On the `/login` page, click the **"Fill Admin Demo"** or **"Fill Client Demo"** buttons to auto-populate credentials in one click.
 
 ---
 
-## 7. Automated Testing Suite
+## Project Structure
 
-The repository includes a comprehensive 15-point end-to-end test suite (`server/tests/test-runner.js`) that verifies:
-1. Health check endpoint status
-2. User registration and role enforcement (`role: 'user'`)
-3. User login and HTTP-only cookie dispatch
-4. Session authentication (`/api/auth/me`)
-5. Project request creation with unique `PRJ-XXXXXX` IDs
-6. Multi-tenant user data isolation (`/api/projects/my`)
-7. Access control: verifying non-admin receives `403 Forbidden` on admin routes
-8. Admin login and credential verification
-9. Admin dashboard metrics aggregation
-10. Admin project status updating and confidential internal notes
-11. User perspective verification (confidential `adminNotes` stripped)
-12. Bidirectional discussion messaging between client and engineer
-13. Public contact inquiry submission and triage
-14. Admin portfolio CMS creation
-15. User session logout and cookie clearing
+```
+├── client/                     # React frontend (Vite)
+│   ├── src/
+│   │   ├── components/         # Shared UI (Navbars, Modals, Badges, Protected Routes)
+│   │   ├── context/            # AuthContext (cookie-based session state)
+│   │   ├── pages/              # Public pages, /dashboard, and /admin views
+│   │   ├── services/           # Axios API instance with credentials enabled
+│   │   └── App.jsx             # Router and layout configuration
+│   └── tailwind.config.js
+│
+├── server/                     # Express REST API
+│   ├── config/                 # DB connection (with embedded fallback) and env config
+│   ├── controllers/            # Route controllers (auth, projects, leads, portfolio, admin)
+│   ├── middleware/             # Auth verification, role checks, rate limiting, file upload
+│   ├── models/                 # Mongoose schemas (User, ProjectRequest, Message, etc.)
+│   ├── routes/                 # Express route definitions
+│   ├── scripts/                # Database seed runner
+│   ├── tests/                  # End-to-end integration test runner
+│   └── server.js               # Entry point & Express configuration
+│
+├── API_DOCUMENTATION.md        # Detailed endpoint reference & payload formats
+└── package.json                # Root orchestration scripts
+```
 
-Run the test suite against the running server:
+---
+
+## Helpful Scripts
+
+| Command | Action |
+| :--- | :--- |
+| `npm run install:all` | Installs dependencies for root, server, and client |
+| `npm run dev:server` | Starts the Express server with file watching on port 5000 |
+| `npm run dev:client` | Starts Vite dev server with HMR on port 5173 |
+| `npm run seed` | Seeds demo admin, client, project requests, and sample case studies |
+| `npm run build:client` | Creates production build in `client/dist` |
+| `node server/tests/test-runner.js` | Runs backend automated integration test suite |
+
+---
+
+## Integration Tests
+
+To run the backend integration tests (verifies auth flow, cookie handling, access controls, project workflows, and lead triage):
+
 ```bash
 node server/tests/test-runner.js
 ```
 
 ---
 
-## 8. Production Deployment
+## Production Notes
 
-### Building Frontend
-```bash
-cd client && npm run build
-```
-This generates the optimized production bundle inside `client/dist`.
+1. **Frontend Build**: Run `npm run build:client`. The compiled static assets will be output to `client/dist`.
+2. **Serving from Express**: When `NODE_ENV=production` is set in `server/.env`, Express automatically serves the static bundle from `client/dist`.
+3. **Cookie Security**: Ensure `COOKIE_SECURE=true` is set when running behind HTTPS/TLS in production.
+4. **CORS**: Set `CLIENT_URL` in `server/.env` to your production frontend domain.
 
-### Production Server Startup
-When `NODE_ENV=production` is set in `server/.env`, the Express server automatically serves the compiled frontend assets from `client/dist`:
-```bash
-cd server
-NODE_ENV=production npm start
-```
+---
 
-### Security Checklist for Production
-1. Update `JWT_SECRET` with a strong cryptographic 64-character random string.
-2. Set `COOKIE_SECURE=true` (requires HTTPS / TLS 1.3).
-3. Connect a persistent MongoDB instance via `MONGODB_URI` (e.g., MongoDB Atlas or dedicated replica set).
-4. Configure production SMTP credentials (`EMAIL_HOST`, `EMAIL_USER`, `EMAIL_PASS`) in `server/.env`.
-5. Set `CLIENT_URL` to your production domain for CORS whitelisting.
+## License
 
-=======
-# React + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
->>>>>>> edc7f248badbb4f6140db710103d11e4bb08b1f5
+ISC
